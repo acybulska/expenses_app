@@ -18,12 +18,26 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Flutter App'),
-      ),
-      body: Center(
-        child: Text("Playground"),
-      ),
-    );
+        appBar: AppBar(
+          title: Text('Flutter App'),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              child: Card(
+                color: Colors.blue,
+                child: Text("Chart"),
+                elevation: 5,
+              ),
+            ),
+            Card(
+              child: Text("List of transaction"),
+              color: Colors.red,
+            )
+          ],
+        ));
   }
 }
