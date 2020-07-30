@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import './transaction.dart';
 
@@ -45,7 +46,6 @@ class MyHomePage extends StatelessWidget {
           title: Text('Flutter App'),
         ),
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
@@ -54,6 +54,32 @@ class MyHomePage extends StatelessWidget {
                 color: Colors.blue,
                 child: Text("Chart"),
                 elevation: 5,
+              ),
+            ),
+            Card(
+              elevation: 5,
+              child: Container(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: "Title",
+                      ),
+                    ),
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: "Amount",
+                      ),
+                    ),
+                    FlatButton(
+                      onPressed: () {},
+                      child: Text("Add Transaction"),
+                      textColor: Colors.purple,
+                    )
+                  ],
+                ),
               ),
             ),
             Column(
@@ -70,7 +96,7 @@ class MyHomePage extends StatelessWidget {
                           width: 2,
                         )),
                         padding: EdgeInsets.all(10),
-                        child: Text("\$ ${tx.amount}",
+                        child: Text("\$${tx.amount}",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
@@ -86,7 +112,7 @@ class MyHomePage extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               )),
                           Text(
-                            tx.date.toString(),
+                            DateFormat.yMMMd().format(tx.date),
                             style: TextStyle(
                               color: Colors.grey,
                             ),
