@@ -22,34 +22,51 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Personal Expenses',
-      home: MyHomePage(),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                fontFamily: 'OpenSans',
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-              button: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-        appBarTheme: AppBarTheme(
-          textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+    return Platform.isIOS
+        ? CupertinoApp(
+            title: 'Personal Expenses',
+            home: MyHomePage(),
+            debugShowCheckedModeBanner: false,
+            theme: CupertinoThemeData(
+              primaryColor: Colors.purple,
+              barBackgroundColor: Colors.purple,
+              scaffoldBackgroundColor: Colors.white,
+              textTheme: CupertinoTextThemeData(
+                textStyle: TextStyle(
+                  fontFamily: 'OpenSens',
+                  color: Colors.black,
                 ),
               ),
-        ),
-      ),
-    );
+            ),
+          )
+        : MaterialApp(
+            title: 'Personal Expenses',
+            home: MyHomePage(),
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              primarySwatch: Colors.purple,
+              fontFamily: 'Quicksand',
+              textTheme: ThemeData.light().textTheme.copyWith(
+                    headline6: TextStyle(
+                      fontFamily: 'OpenSans',
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    button: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+              appBarTheme: AppBarTheme(
+                textTheme: ThemeData.light().textTheme.copyWith(
+                      headline6: TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+              ),
+            ),
+          );
   }
 }
 
@@ -158,44 +175,49 @@ class _MyHomePageState extends State<MyHomePage> {
                 mediaQuery.padding.top) *
             0.7,
         child: TransactionList(_userTransactions, _deleteTransaction));
-    final pageBody = SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Show Chart'),
-                Switch.adaptive(
-                  activeColor: Theme.of(context).accentColor,
-                  value: _showChart,
-                  onChanged: (val) {
-                    setState(() {
-                      _showChart = val;
-                    });
-                  },
-                ),
-              ],
-            ),
-          if (!isLandscape)
-            Container(
-                height: (mediaQuery.size.height -
-                        appBar.preferredSize.height -
-                        mediaQuery.padding.top) *
-                    0.3,
-                child: Chart(_recentTransactions)),
-          if (!isLandscape) txListWidget,
-          if (isLandscape)
-            _showChart
-                ? Container(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.7,
-                    child: Chart(_recentTransactions))
-                : txListWidget
-        ],
+    final pageBody = SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            if (isLandscape)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Show Chart'),
+                  Switch.adaptive(
+                    activeColor: Platform.isIOS
+                        ? CupertinoTheme.of(context).primaryColor
+                        : Theme.of(context).primaryColor,
+                    activeTrackColor: Colors.purple,
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            if (!isLandscape)
+              Container(
+                  height: (mediaQuery.size.height -
+                          appBar.preferredSize.height -
+                          mediaQuery.padding.top) *
+                      0.3,
+                  child: Chart(_recentTransactions)),
+            if (!isLandscape) txListWidget,
+            if (isLandscape)
+              _showChart
+                  ? Container(
+                      height: (mediaQuery.size.height -
+                              appBar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          0.7,
+                      child: Chart(_recentTransactions))
+                  : txListWidget
+          ],
+        ),
       ),
     );
     return Platform.isIOS
