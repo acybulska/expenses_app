@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -36,25 +39,50 @@ class _NewTransactionState extends State<NewTransaction> {
   }
 
   void _presentDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2019),
-      lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        _selectedDate = pickedDate;
+    if (Platform.isIOS) {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext buildContext) {
+            return Container(
+              height: MediaQuery.of(context).copyWith().size.height / 4,
+              child: CupertinoDatePicker(
+                initialDateTime: DateTime.now(),
+                onDateTimeChanged: (DateTime pickedDate) {
+                  if (pickedDate == null) {
+                    return;
+                  }
+                  setState(() {
+                    _selectedDate = pickedDate;
+                  });
+                },
+                maximumDate: DateTime.now(),
+                minimumDate: DateTime(2019),
+                mode: CupertinoDatePickerMode.date,
+                backgroundColor: CupertinoTheme.of(context).primaryColor,
+              ),
+            );
+          });
+    } else {
+      showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2019),
+        lastDate: DateTime.now(),
+      ).then((pickedDate) {
+        if (pickedDate == null) {
+          return;
+        }
+        setState(() {
+          _selectedDate = pickedDate;
+        });
       });
-    });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-          child: Card(
+      child: Card(
         elevation: 5,
         child: Container(
           padding: EdgeInsets.only(
@@ -100,7 +128,9 @@ class _NewTransactionState extends State<NewTransaction> {
                         ),
                       ),
                       onPressed: _presentDatePicker,
-                      textColor: Theme.of(context).primaryColor,
+                      textColor: Platform.isIOS
+                          ? CupertinoTheme.of(context).primaryColor
+                          : Theme.of(context).primaryColor,
                     ),
                   ],
                 ),
@@ -108,8 +138,12 @@ class _NewTransactionState extends State<NewTransaction> {
               RaisedButton(
                 onPressed: _submitData,
                 child: Text("Add Transaction"),
-                color: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).textTheme.button.color,
+                color: Platform.isIOS
+                    ? CupertinoTheme.of(context).primaryColor
+                    : Theme.of(context).primaryColor,
+                textColor: Platform.isIOS
+                    ? CupertinoTheme.of(context).primaryContrastingColor
+                    : Theme.of(context).textTheme.button.color,
               )
             ],
           ),
