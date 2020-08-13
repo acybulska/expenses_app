@@ -94,21 +94,44 @@ class _NewTransactionState extends State<NewTransaction> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              TextField(
-                decoration: InputDecoration(
-                  labelText: "Title",
-                ),
-                controller: _titleController,
-                onSubmitted: (_) => _submitData(),
-              ),
-              TextField(
-                decoration: InputDecoration(
-                  labelText: "Amount",
-                ),
-                controller: _amountController,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                onSubmitted: (_) => _submitData(),
-              ),
+              Platform.isIOS
+                  ? CupertinoTextField(
+                      prefix: Text("Title"),
+                      decoration: BoxDecoration(
+                        color:
+                            CupertinoTheme.of(context).primaryContrastingColor,
+                      ),
+                      controller: _titleController,
+                      onSubmitted: (_) => _submitData(),
+                    )
+                  : TextField(
+                      decoration: InputDecoration(
+                        labelText: "Title",
+                      ),
+                      controller: _titleController,
+                      onSubmitted: (_) => _submitData(),
+                    ),
+              Platform.isIOS
+                  ? CupertinoTextField(
+                      prefix: Text("Amount"),
+                      decoration: BoxDecoration(
+                        color:
+                            CupertinoTheme.of(context).primaryContrastingColor,
+                      ),
+                      controller: _amountController,
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                      onSubmitted: (_) => _submitData(),
+                    )
+                  : TextField(
+                      decoration: InputDecoration(
+                        labelText: "Amount",
+                      ),
+                      controller: _amountController,
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                      onSubmitted: (_) => _submitData(),
+                    ),
               Container(
                 height: 70,
                 child: Row(
