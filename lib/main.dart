@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
               primaryColor: Colors.purple,
               barBackgroundColor: Colors.purple,
               scaffoldBackgroundColor: Colors.white,
+              primaryContrastingColor: Colors.white,
               textTheme: CupertinoTextThemeData(
                 textStyle: TextStyle(
                   fontFamily: 'OpenSens',
@@ -161,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 GestureDetector(
                   child: Icon(
                     CupertinoIcons.add,
-                    color: Colors.white,
+                    color: CupertinoTheme.of(context).primaryContrastingColor,
                   ),
                   onTap: () => _startAddNewTransaction(context),
                 ),
