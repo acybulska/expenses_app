@@ -24,6 +24,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Platform.isIOS
         ? CupertinoApp(
+            localizationsDelegates: [
+              DefaultMaterialLocalizations.delegate,
+              DefaultCupertinoLocalizations.delegate,
+              DefaultWidgetsLocalizations.delegate,
+            ],
             title: 'Personal Expenses',
             home: MyHomePage(),
             debugShowCheckedModeBanner: false,
@@ -147,12 +152,17 @@ class _MyHomePageState extends State<MyHomePage> {
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
     final PreferredSizeWidget appBar = Platform.isIOS
         ? CupertinoNavigationBar(
-            middle: Text('Personal Expenses'),
+            middle: Text(
+              'Personal Expenses',
+            ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: <Widget>[
                 GestureDetector(
-                  child: Icon(CupertinoIcons.add),
+                  child: Icon(
+                    CupertinoIcons.add,
+                    color: Colors.white,
+                  ),
                   onTap: () => _startAddNewTransaction(context),
                 ),
               ],
