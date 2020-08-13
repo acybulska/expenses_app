@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -46,8 +49,15 @@ class TransactionList extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(6),
                       child: FittedBox(
-                          child: Text('\$${transactions[index].amount}')),
+                        child: Text('\$${transactions[index].amount}'),
+                      ),
                     ),
+                    backgroundColor: Platform.isIOS
+                        ? CupertinoTheme.of(context).primaryColor
+                        : Theme.of(context).primaryColor,
+                    foregroundColor: Platform.isIOS
+                        ? CupertinoTheme.of(context).primaryContrastingColor
+                        : Theme.of(context).accentColor,
                   ),
                   title: Text(
                     transactions[index].title,

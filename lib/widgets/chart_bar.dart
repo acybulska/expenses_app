@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
@@ -40,7 +43,9 @@ class ChartBar extends StatelessWidget {
                   heightFactor: spendingPercentage,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
+                      color: Platform.isIOS
+                          ? CupertinoTheme.of(context).primaryColor
+                          : Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
