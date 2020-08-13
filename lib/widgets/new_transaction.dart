@@ -120,18 +120,26 @@ class _NewTransactionState extends State<NewTransaction> {
                             : 'Picked date: ${DateFormat.yMd().format(_selectedDate)}',
                       ),
                     ),
-                    FlatButton(
-                      child: Text(
-                        'Choose date',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onPressed: _presentDatePicker,
-                      textColor: Platform.isIOS
-                          ? CupertinoTheme.of(context).primaryColor
-                          : Theme.of(context).primaryColor,
-                    ),
+                    Platform.isIOS
+                        ? CupertinoButton(
+                            child: Text(
+                              'Choose date',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: _presentDatePicker,
+                          )
+                        : FlatButton(
+                            child: Text(
+                              'Choose date',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            onPressed: _presentDatePicker,
+                            textColor: Theme.of(context).primaryColor,
+                          ),
                   ],
                 ),
               ),
